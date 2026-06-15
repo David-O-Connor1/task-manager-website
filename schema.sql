@@ -1,0 +1,20 @@
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
+);
+
+DROP TABLE IF EXISTS tasks;
+
+CREATE TABLE tasks
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    completed INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY(user_id) REFERENCES users(id)
+);

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block main_content %}
+
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    {% for task in tasks %}
+        <tr>
+            <td>{{ task["title"] }}</td>
+            <td>{{ task["description"]}}</td>
+            {% if task["completed"] == 0 %}
+                <td>Incomplete</td>
+                <td><a href="{{ url_for('complete_task', task_id = task['id'])}}">Click to complete</a></td>
+            {% else %}
+                <td>Completed</td>
+                <td>✓</td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
