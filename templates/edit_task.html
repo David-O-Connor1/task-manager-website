@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block main_content %}
+
+<h1>Edit task</h1>
+
+<form action="" method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    {{ form.title.label }}
+    {{ form.title() }}
+    {% for error in form.title.errors %}
+        {{ error }}
+    {% endfor %}
+
+    <br/>
+    {{ form.description.label }}
+    {{ form.description() }}
+    {% for error in form.description.errors %}
+        {{ error }}
+    {% endfor %}
+
+    <br/>
+    {{ form.submit() }}
+</form>
+<p><a href="{{ url_for('dashboard') }}">Cancel</a></p>
+
+{% endblock %}

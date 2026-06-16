@@ -115,4 +115,28 @@ def delete_task(task_id):
     db.commit()
     return redirect(url_for("dashboard"))
 
+@app.route("/edit_task/<int:task_id>",methods = ["GET","POST"])
+@login_required
+def edit_task(task_id):
+    db = get_db()
+    task = db.execute("""SELECT * FROM tasks WHERE id = ? and user_id = ?""",(task_id,g.user)).fetchone()
+    if task is None:
+        flash("Task either doesn't exist or is owned by another user","error")
+        return redirect(url_for("dashboard"))
 
+    form = add_taskForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        description = form.description.data
+        db.execute("""UPDATE tasks SET title = ?, description = ? WHERE id = ? and user_id = ?""",(title,description,task_id,g.user))
+        db.commit()
+        flash("Task updated!","success")
+        return redirect(url_for("dashboard"))
+
+    if request.method == "GET":
+        form.title.data = task["title"]
+        form.description.data = task["description"]
+    return render_template("edit_task.html",form=form)
+    
+
+    

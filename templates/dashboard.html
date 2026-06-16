@@ -4,26 +4,36 @@
 
 <p><a href="{{ url_for('add_task')}}">Add task</a></p>
 
-<table>
-    <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
-    {% for task in tasks %}
+
+{% if tasks %}
+    <table>
         <tr>
-            <td>{{ task["title"] }}</td>
-            <td>{{ task["description"]}}</td>
-            {% if task["completed"] == 0 %}
-                <td>Incomplete</td>
-                <td><a href="{{ url_for('complete_task', task_id = task['id'])}}">Click to complete</a></td>
-            {% else %}
-                <td>Completed</td>
-                <td>✓</td>
-            {% endif %}
-            <td><a href="{{ url_for('delete_task', task_id = task['id'])}}">Delete</a></td>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Action</th>
+            <th>Remove</th>
+            <th>Edit</th>
         </tr>
-    {% endfor %}
-</table>
+        {% for task in tasks %}
+            <tr>
+                <td>{{ task["title"] }}</td>
+                <td>{{ task["description"]}}</td>
+                {% if task["completed"] == 0 %}
+                    <td>Incomplete</td>
+                    <td><a href="{{ url_for('complete_task', task_id = task['id'])}}">Click to complete</a></td>
+                {% else %}
+                    <td>Completed</td>
+                    <td>✓</td>
+                {% endif %}
+                <td><a href="{{ url_for('delete_task', task_id = task['id'])}}">Delete</a></td>
+                <td><a href="{{ url_for('edit_task', task_id = task['id'])}}">Edit task</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No tasks yet. Click "Add task" to create your first task.</p>
+
+{% endif %}
+
 {% endblock %}
