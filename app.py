@@ -103,6 +103,16 @@ def add_task():
 @login_required
 def complete_task(task_id):
     db = get_db()
-    db.execute("""UPDATE tasks SET completed = 1 WHERE id = ?""",(task_id,))
+    db.execute("""UPDATE tasks SET completed = 1 WHERE id = ? AND user_id = ?""",(task_id,g.user))
     db.commit()
     return redirect(url_for("dashboard"))
+
+@app.route("/delete_task/<int:task_id>")
+@login_required
+def delete_task(task_id):
+    db = get_db()
+    db.execute("""DELETE FROM tasks WHERE id = ? AND user_id = ?""",(task_id,g.user))
+    db.commit()
+    return redirect(url_for("dashboard"))
+
+
